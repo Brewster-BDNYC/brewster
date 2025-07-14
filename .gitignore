@@ -1,0 +1,5 @@
+# Data Files
+WISE1049AB_Data/*
+
+# Cache
+.DS_Store
