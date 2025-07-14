@@ -1,5 +1,6 @@
 # Data Files
-WISE1049AB_Data/*
+WISE1049AB_Data/NIRSpec/
+WISE1049AB_Data/MIRI/
 
 # Cache
 .DS_Store
