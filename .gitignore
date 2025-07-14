@@ -1,4 +1,5 @@
 # Data Files
+<<<<<<< HEAD
 wise1049AB_Data/JWST2965-zenodo/*
 
 # Build Files
@@ -7,3 +8,9 @@ wise1049AB_Data/JWST2965-zenodo/*
 
 # Cache Files
 .DS_Store
+=======
+WISE1049AB_Data/*
+
+# Cache
+.DS_Store
+>>>>>>> 0c63b267d53bf348f5cce736d635a68be5b71cb0

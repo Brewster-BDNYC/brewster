@@ -5,19 +5,19 @@
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=48
 #SBATCH --time=37:00:00
-#SBATCH --mail-user=ecg224@cornell.edu
+#SBATCH --mail-user=your_email@example.com
 #SBATCH --mail-type=ALL
 
 source ~/.bashrc
 module load openmpi3/3.1.4
 
-declare -xr WDIR="/home/cegonzales/brewster_Aion/brewster_51Peg_exoplanets"
+declare -xr WDIR="path/to/your/working/directory" 
 
 declare PATH=${PATH}:${WDIR}
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${WDIR}:~/
 
 # Active python 3 environment
-source activate retrievals
+source activate retrievals #activate YOUR conda environment
 
 time_start=`date '+%T%t%d_%h_06'`
   
@@ -39,7 +39,7 @@ echo ------------------------------------------------------
 cd ${WDIR}
 
 
-mpirun python G570D_test.py > /home/cegonzales/brewster_Aion/brewster_51Peg_exoplanets/Results/G570D_check/G570D_check.log
+mpirun python G570D_test.py > path/to/your/logs/G570D_test.log 2>&1
 
 time_end=`date '+%T%t%d_%h_06'`
 echo Started at: $time_start
