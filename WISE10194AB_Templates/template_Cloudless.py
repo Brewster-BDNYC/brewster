@@ -163,7 +163,7 @@ mch4 = 0
 
 # now set up the EMCEE stuff
 # How many dimensions???  Count them up in the p0 declaration. Carefully
-ndim = 17  ### EDITED
+ndim = 18  ### EDITED
 
 
 # How many walkers we running?
@@ -184,7 +184,9 @@ runtest = 1
 make_arg_pickle = 2
 
 # Where is the output going?
-outdir = "/lustre/xg-phy240309/users/3941/brewster_extra/outputs/"
+user = "3940"
+folder_name = "brewster_global/brewster"
+outdir = "/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)

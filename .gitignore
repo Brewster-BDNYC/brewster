@@ -9,5 +9,6 @@ WISE1049AB_Data/MIRI/
 *.so
 
 # Results 
+*outputs/*
 *.e 
 *.o

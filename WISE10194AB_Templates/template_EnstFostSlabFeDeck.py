@@ -54,11 +54,12 @@ runname = "W1049_EnstFostSlabFeDeck"
 # wavelength in microns
 # flux in W/m2/um
 # flux error
-obspec = np.asfortranarray(np.loadtxt("W1049B_Median_v2rev_wRes.dat",dtype='d',unpack='true'))
+component = "A" #Change for B component if WISE 1049B
+obspec = np.asfortranarray(np.loadtxt(f"W1049{component}_wResolution.dat",dtype='d',unpack='true'))
 
 # Now the wavelength range
 w1 = 0.5
-w2 = 10.1
+w2 = 10.5
 
 # FWHM of data in microns(WE DON'T USE THIS FOR SPEX DATA.
 #  >0 = some value of FWHM for convolving the data
@@ -66,7 +67,7 @@ w2 = 10.1
 # -1 = spex + AKARI + spitzer
 # -2 = spex + spitzer
 # -3 = spex + L band + spitzer
-fwhm = 999 #EDITED -----------------------
+fwhm = 999 
 
 # DISTANCE (in parsecs)
 dist = 1.99
@@ -125,7 +126,7 @@ do_bff = 0
 # i.e. T1,P1 == T2,P2
 # Type 3 is Madhusudhan & Seager 2009 with an inversion
 # Type 7 is the Molliere (2020 & 2022) with 4 point spline
-proftype = 2
+proftype = 7
 pfile = "t1700g1000f3.dat"
 
 
@@ -140,7 +141,9 @@ press = pow(10,logfinePress)
 
 # Where are the cross sections?
 # give the full path
-xpath = "/lustre/xg-phy240309/users/3941/brewster_extra/Linelists/"
+user = "3940"
+folder_name = "brewster_global"
+xpath = f"/lustre/xg-phy240309/users/{user}/{folder_name}/Linelists/"
 xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather than interpolated to 10k), but they don’t fit the data as well
 
 # now the cross sections
@@ -150,7 +153,7 @@ xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather
 # together at Asplund solar ratio. See Line at al (2015)
 # Else if K is after Na, they'll be separate
 
-gaslist = ['h2o','ch4','co','co2','nh3','feh','k','na'] #EDITED -----------------------
+gaslist = ['h2o','ch4','co','co2','nh3','feh','k','na'] 
 
 ngas = len(gaslist)
 
@@ -163,7 +166,7 @@ mch4 = 0
 
 # now set up the EMCEE stuff
 # How many dimensions???  Count them up in the p0 declaration. Carefully
-ndim = 31
+ndim = 28
 
 
 # How many walkers we running?
@@ -184,7 +187,9 @@ runtest = 1
 make_arg_pickle = 2
 
 # Where is the output going?
-outdir = "/lustre/xg-phy240309/users/3941/brewster_extra/outputs/"
+user = "3940"
+folder_name = "brewster_global/brewster"
+outdir = "/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
@@ -219,6 +224,7 @@ fresh = 0
 p0 = np.empty([nwalkers,ndim])
 if (fresh == 0):
     # ----- "Gas" parameters (Includes gases, gravity, logg, scale factor, dlambda, and tolerance parameter) --
+    
     # # For Non-chemical equilibrium
     p0[:,0] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 3.5 # H2O
     p0[:,1] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 3.5 # CH4
@@ -231,15 +237,10 @@ if (fresh == 0):
     p0[:,8] = r2d2 + (np.random.randn(nwalkers).reshape(nwalkers) * (0.1*r2d2))  # scale factor 1
     p0[:,9] = np.random.randn(nwalkers).reshape(nwalkers) * 30  # dlambda
     p0[:,10] = np.log10((np.random.rand(nwalkers).reshape(nwalkers) * (max(obspec[2,:]**2)*(0.1 - 0.01))) + (0.01*min(obspec[2,10::3]**2)))  # tolerance parameter 1
-    p0[:,11] = np.log10((np.random.rand(nwalkers).reshape(nwalkers) * (max(obspec[2,:]**2)*(0.1 - 0.01))) + (0.01*min(obspec[2,10::3]**2)))  # tolerance parameter 2
-    # If you do Chemical Equilibrium you will have these parameters instead
-    # If you do Chemical Equilibrium you will have these parameters instead
-    # p0[:, 0] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 0.5  # met
-    # p0[:, 1] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1  # CO
-    # p0[:, 2] = 0.1 * np.random.randn(nwalkers).reshape(nwalkers) + 5.4  # gravity *** put it near SED value **
-    # p0[:, 3] = r2d2 + (np.random.randn(nwalkers).reshape(nwalkers) * (0.1 * r2d2))  # scale factor
-    # p0[:, 4] = np.random.randn(nwalkers).reshape(nwalkers) * 0.001  # dlambda
-    # ------ If you have a cloud, you will always need cloud parameters. ------
+    p0[:,11] = np.log10((np.random.rand(nwalkers).reshape(nwalkers) * (max(obspec[2,:]**2)*(0.1 - 0.01))) + (0.01*min(obspec[2,10::3]**2))) # tolerance parameter 2
+   
+   # ------ Cloud Parameters ------
+   
     # Slab cloud params
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
@@ -249,12 +250,14 @@ if (fresh == 0):
     p0[:,14] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
     p0[:,15] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
     p0[:,16] = 0.1*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
+    
     # Slab cloud 2 params
     p0[:,17] = np.random.randn(nwalkers).reshape(nwalkers) # optical depth
     p0[:,18] = 0.5 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
     p0[:,19] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
     p0[:,20] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
     p0[:,21] = 0.1*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
+   
     # Deck cloud params
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
@@ -263,7 +266,9 @@ if (fresh == 0):
     p0[:,23] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
     p0[:,24] = np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
     p0[:,25] = np.abs(0.1+ 0.01*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
-    # ------ And now the T-P params. --------
+   
+    # ------ Temperature Pressure Parameters --------
+    
     # For profile type 1
     # p0[:, ndim-14] = 50  + (np.random.randn(nwalkers).reshape(nwalkers))  # gamma - removes wiggles unless necessary to profile
     # BTprof = np.loadtxt("BTtemp800_45_13.dat")
@@ -277,23 +282,25 @@ if (fresh == 0):
     #         else:
     #             for i in range(0,13):
     #                 p0[:,ndim-13 + i] = BTprof[i] + (50 * np.random.randn(nwalkers).reshape(nwalkers))
+    
     # These are for type 2. 
-    p0[:,26] = 0.39 + 0.1*np.random.randn(nwalkers).reshape(nwalkers)
-    p0[:,27] = 0.14 +0.05*np.random.randn(nwalkers).reshape(nwalkers)
-    p0[:,28] = -1.2 + 0.2*np.random.randn(nwalkers).reshape(nwalkers)
-    p0[:,29] = 2.25+ 0.2*np.random.randn(nwalkers).reshape(nwalkers)
-    p0[:,30] = 3000. + (500.*  np.random.randn(nwalkers).reshape(nwalkers))
-    for i in range (0,nwalkers):
-       while True:
-           Tcheck = TPmod.set_prof(proftype, coarsePress, press, p0[i, ndim-5:])
-           if min(Tcheck) > 1.0:
-               break
-           else:
-               p0[i, ndim-5] = 0.39 + 0.01*np.random.randn()
-               p0[i, ndim-4] = 0.14 + 0.01*np.random.randn()
-               p0[i, ndim-3] = -1.2 + 0.2*np.random.randn()
-               p0[i, ndim-2] = 2. + 0.2*np.random.randn()
-               p0[i, ndim-1] = 3000. + (200.*np.random.randn())
+    # p0[:,26] = 0.39 + 0.1*np.random.randn(nwalkers).reshape(nwalkers)
+    # p0[:,27] = 0.14 +0.05*np.random.randn(nwalkers).reshape(nwalkers)
+    # p0[:,28] = -1.2 + 0.2*np.random.randn(nwalkers).reshape(nwalkers)
+    # p0[:,29] = 2.25+ 0.2*np.random.randn(nwalkers).reshape(nwalkers)
+    # p0[:,30] = 3000. + (500.*  np.random.randn(nwalkers).reshape(nwalkers))
+    # for i in range (0,nwalkers):
+    #    while True:
+    #        Tcheck = TPmod.set_prof(proftype, coarsePress, press, p0[i, ndim-5:])
+    #        if min(Tcheck) > 1.0:
+    #            break
+    #        else:
+    #            p0[i, ndim-5] = 0.39 + 0.01*np.random.randn()
+    #            p0[i, ndim-4] = 0.14 + 0.01*np.random.randn()
+    #            p0[i, ndim-3] = -1.2 + 0.2*np.random.randn()
+    #            p0[i, ndim-2] = 2. + 0.2*np.random.randn()
+    #            p0[i, ndim-1] = 3000. + (200.*np.random.randn())
+
     # These are for type 3.
     # p0[:, 5] = 0.39 + 0.1 * np.random.randn(nwalkers).reshape(nwalkers)  # alpha
     # p0[:, 6] = 0.14 + 0.05 * np.random.randn(nwalkers).reshape(nwalkers)  # beta
@@ -314,22 +321,15 @@ if (fresh == 0):
     #             p0[i, ndim - 3] = -1.2 + 0.2 * np.random.randn()
     #             p0[i, ndim - 2] = 2. + 0.2 * np.random.randn()
     #             p0[i, ndim - 1] = 4200. + (200. * np.random.randn())
+    
+    # These are for profile type 7. Tint, alpha, lndelta, T1, T2, T3
+    p0[:,ndim-6] = 1500. + (20.* np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,ndim-5] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
+    p0[:,ndim-4] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
+    p0[:,ndim-3] = 1500. + (25. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,ndim-2] = 1500. + (50. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,ndim-1] = 1500. + (20. * np.random.randn(nwalkers).reshape(nwalkers))
 
-   # These are for profile type 7. Tint, alpha, lndelta, T1, T2, T3
-    #p0[:,ndim-6] = 650. + (20.* np.random.randn(nwalkers).reshape(nwalkers))
-    #p0[:,ndim-5] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
-    #p0[:,ndim-4] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
-    #p0[:,ndim-3] = 480. + (25. * np.random.randn(nwalkers).reshape(nwalkers))
-    #p0[:,ndim-2] = 200. + (50. * np.random.randn(nwalkers).reshape(nwalkers))
-    #p0[:,ndim-1] = 60. + (20. * np.random.randn(nwalkers).reshape(nwalkers))
-
-# If we're doing profile type 1, we need to replace the last TP entries with
-# this stuff.....
-#p0[:, ndim-14] = 50. + (np.random.randn(nwalkers).reshape(nwalkers))
-# gamma - removes wiggles unless necessary to profile 
-#BTprof = np.loadtxt("BTtemp800_45_13.dat")
-#for i in range(0, 13):  # 13 layer points
-#   p0[:,ndim-13 + i] = (BTprof[i] - 200.) + (150. * np.random.randn(nwalkers).reshape(nwalkers))   
 
 if (fresh != 0):
     fname=chaindump
@@ -340,15 +340,11 @@ if (fresh != 0):
             p0[:,i] = (np.random.rand(nwalkers).reshape(nwalkers)*0.5) + p0[:,i]
 
 
-
-
 prof = np.full(13, 100.)
 if proftype == 9:
     modP, modT = np.loadtxt(pfile, skiprows=1, usecols=(1, 2), unpack=True)
     tfit = InterpolatedUnivariateSpline(np.log10(modP), modT, k=1)
     prof = tfit(logcoarsePress)
-
-
 
 
 # Now we'll get the opacity files into an array
