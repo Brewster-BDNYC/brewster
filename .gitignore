@@ -1,0 +1,9 @@
+# Data Files
+wise1049AB_Data/JWST2965-zenodo/*
+
+# Build Files
+*.so
+*.o
+
+# Cache Files
+.DS_Store
