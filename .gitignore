@@ -3,7 +3,7 @@
 
 # Cache
 .DS_Store
-*_pycache_
+__pycache__
 
 # Build Files 
 *.so
