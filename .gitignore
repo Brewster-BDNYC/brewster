@@ -1,9 +1,9 @@
 # Data Files
-WISE1049AB_Data/NIRSpec/
-WISE1049AB_Data/MIRI/
+*.fits
 
 # Cache
 .DS_Store
+*_pycache_
 
 # Build Files 
 *.so
