@@ -9,7 +9,7 @@ import time
 import numpy as np
 import scipy as sp
 import emcee
-import testkit_WAB as testkit
+import testkit as testkit
 import ciamod
 import TPmod
 import settings
