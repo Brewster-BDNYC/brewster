@@ -55,7 +55,7 @@ runname = "W1049_FostSlabFeDeck"
 # flux in W/m2/um
 # flux error
 component = "A" #Change for B component if WISE 1049B
-obspec = np.asfortranarray(np.loadtxt(f"W1049{component}_Median.txt",dtype='d',unpack='true'))
+obspec = np.asfortranarray(np.loadtxt(f"WISE1049AB_Data/WISE1049{component}_Median.txt",dtype='d',unpack='true'))
 
 # Now the wavelength range
 w1 = 0.5
