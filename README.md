@@ -25,7 +25,7 @@ A spectral inversion code for retrieval analysis of emission spectra from brown 
 6. To test that everything is properly installed, run the check_brewster.py file, by typing ```python check_brewster.py``` in the terminal making sure you are in the brewster working directory.
 
 ## Notes for BDNYC from Carolina Navarrete
-This version of Brewster is forked from Brewster V1, with the latest updates being constantly integrated. Template scripts have been modified to fit 1. our team's use of DARWIN (Find documentation here: https://docs.hpc.udel.edu/abstract/darwin/darwin) and 2. the type of retrievals our team is focused on running. For template scripts for the WISE1049AB project reference the branch ```WISE1049AB``` using ```git switch WISE1049AB```
+This version of Brewster is forked from Brewster V1, with the latest updates being constantly integrated. Template scripts have been modified to fit 1. our team's use of DARWIN (Find documentation here: https://docs.hpc.udel.edu/abstract/darwin/darwin) and 2. the type of retrievals our team is focused on running. For template scripts for the WISE1049AB project reference the branch ```WISE1049AB``` using ```git checkout WISE1049AB```
 
 Please fork from this repository to make your own local changes and then open a pull request if you would like to integrate it into the ```master``` branch within Brewster BDNYC.
 
