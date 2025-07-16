@@ -7,10 +7,9 @@ __pycache__
 
 # Build Files 
 *.so
-*.pyf 
-*.mod 
+*.pyf
+*.mod
 
-# Results 
-*outputs/*
-*.e 
-*.o
+# Results
+*.e*
+*.o*
