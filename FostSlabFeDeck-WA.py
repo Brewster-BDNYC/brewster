@@ -55,7 +55,7 @@ runname = "W1049_FostSlabFeDeck"
 # flux in W/m2/um
 # flux error
 component = "A" #Change for B component if WISE 1049B
-obspec = np.asfortranarray(np.loadtxt(f"WISE1049AB_Data/WISE1049{component}_Median.txt",dtype='d',unpack='true'))
+obspec = np.asfortranarray(np.loadtxt("WISE1049A_Median.txt", unpack='true'))
 
 # Now the wavelength range
 w1 = 0.5
@@ -186,7 +186,7 @@ make_arg_pickle = 2
 # Where is the output going?
 user = "3940"
 folder_name = "brewster_global/brewster"
-outdir = "/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
+outdir = f"/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
