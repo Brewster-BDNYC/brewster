@@ -58,8 +58,8 @@ component = "A" #Change for B component if WISE 1049B
 obspec = np.asfortranarray(np.loadtxt("WISE1049A_Median.txt", unpack='true'))
 
 # Now the wavelength range
-w1 = 0.5
-w2 = 10.5
+w1 = 1.0
+w2 = 12.0
 
 # FWHM of data in microns(WE DON'T USE THIS FOR SPEX DATA.
 #  >0 = some value of FWHM for convolving the data
@@ -123,7 +123,7 @@ do_bff = 0
 # i.e. T1,P1 == T2,P2
 # Type 3 is Madhusudhan & Seager 2009 with an inversion
 # Type 7 is the Molliere (2020 & 2022) with 4 point spline
-proftype = 2
+proftype = 7
 pfile = "t1700g1000f3.dat"
 
 
@@ -186,7 +186,7 @@ make_arg_pickle = 2
 # Where is the output going?
 user = "3940"
 folder_name = "brewster_global/brewster"
-outdir = f"/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
+outdir = f"/lustre/xg-phy240309/users/{user}/{folder_name}"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
@@ -312,12 +312,12 @@ if (fresh == 0):
     #             p0[i, ndim - 1] = 4200. + (200. * np.random.randn())
     
     # These are for profile type 7. Tint, alpha, lndelta, T1, T2, T3
-    p0[:,ndim-6] = 1500. + (20.* np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-5] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
-    p0[:,ndim-4] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
-    p0[:,ndim-3] = 1500. + (25. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-2] = 1500. + (50. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-1] = 1500. + (20. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,21] = 1700. + (100.* np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,22] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
+    p0[:,23] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
+    p0[:,24] = 1150. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,25] = 1200. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,26] = 1300. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
 
 
 if (fresh != 0):

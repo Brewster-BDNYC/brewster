@@ -8,7 +8,7 @@
 #SBATCH --output=outputs/W1049A_FostSlabFeDeck-WA.o%j
 #SBATCH --error=outputs/W1049A_FostSlabFeDeck-WA.e%j
 #SBATCH --partition=standard
-#SBATCH --time=00:30:00
+#SBATCH --time=01:00:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL
 #SBATCH --export=NONE
