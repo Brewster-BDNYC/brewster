@@ -140,8 +140,12 @@ press = pow(10,logfinePress)
 # give the full path
 user = "3940"
 folder_name = "brewster_global"
+
 xpath = f"/lustre/xg-phy240309/users/{user}/{folder_name}/Linelists/"
+xpath = '/lustre/xg-phy240309/users/3940/brewster_global/Linelists/'
 xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather than interpolated to 10k), but they don’t fit the data as well
+
+# /lustre/xg-phy240309/users/3940/brewster_global/brewster
 
 # now the cross sections
 
@@ -187,6 +191,7 @@ make_arg_pickle = 2
 user = "3940"
 folder_name = "brewster_global/brewster"
 outdir = f"/lustre/xg-phy240309/users/{user}/{folder_name}"
+outdir = '/lustre/xg-phy240309/users/3940/brewster_global/brewster/'
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
