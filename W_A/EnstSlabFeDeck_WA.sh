@@ -4,9 +4,9 @@
 #SBATCH --tasks-per-node=64
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=6G 
-#SBATCH --job-name=W1049A_EnstSlabFeDeck-WA
-#SBATCH --output=outputs/W1049A_EnstSlabFeDeck-WA.o%j
-#SBATCH --error=outputs/W1049A_EnstSlabFeDeck-WA.e%j
+#SBATCH --job-name=EnstSlabFeDeck-WA
+#SBATCH --output=outputs/EnstSlabFeDeck-WA.o%j
+#SBATCH --error=outputs/EnstSlabFeDeck-WA.e%j
 #SBATCH --partition=standard
 #SBATCH --time=01:00:00
 #SBATCH --mail-user=cnavarrete@amnh.org
@@ -15,6 +15,7 @@
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/home/3940/brewster_global/brewster_v1.1/brewster/"
 vpkg_require my-sci-app/20201102
+
 
 #UD_QUIET_JOB_SETUP=YES                                                          	\
 #export UD_JOB_EXIT_FN_SIGNALS="SIGTERM EXIT"                                               	\
@@ -27,7 +28,7 @@ vpkg_require my-sci-app/20201102
 . /opt/shared/slurm/templates/libexec/openmpi.sh
 cd /home/3940/brewster_global/brewster_v1.1/brewster/
 
-#export TMPDIR="/lustre/xg-phy240309/users/3941/brewster_extra/tmpdir/$SLURM_JOBID.tmp"
+#export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_extra/tmpdir/$SLURM_JOBID.tmp"
 #mkdir -p $TMPDIR
 
 ${UD_MPIRUN} python "/home/3940/brewster_global/brewster_v1.1/brewster/W_A/EnstSlabFeDeck_WA.py" > ../log_files/W1049A_EnstSlabFeDeck-WA.log

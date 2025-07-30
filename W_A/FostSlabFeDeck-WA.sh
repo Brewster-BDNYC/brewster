@@ -27,7 +27,7 @@ vpkg_require my-sci-app/20201102
 . /opt/shared/slurm/templates/libexec/openmpi.sh
 cd /home/3940/brewster_global/brewster_v1.1/brewster/
 
-#export TMPDIR="/lustre/xg-phy240309/users/3941/brewster_extra/tmpdir/$SLURM_JOBID.tmp"
+#export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_extra/tmpdir/$SLURM_JOBID.tmp"
 #mkdir -p $TMPDIR
 
 ${UD_MPIRUN} python "/home/3940/brewster_global/brewster_v1.1/brewster/W_A/FostSlabFeDeck-WA.py" > ../log_files/W1049A_FostSlabFeDeck-WA.log
