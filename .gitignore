@@ -13,3 +13,6 @@ __pycache__
 # Results
 *.e*
 *.o*
+status_ball*
+runtimes*
+*last_nc.pic
