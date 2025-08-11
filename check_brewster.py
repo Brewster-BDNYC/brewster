@@ -1,7 +1,7 @@
 import code_test as ct
 import numpy as np
 
-xpath = '/lustre/xg-phy240309/users/3940/brewster_global/Linelists/'
+xpath = '/lustre/xg-phy240309/users/3941/brewster_extra/Linelists/'
 xlist = 'gaslistR10K.dat'
 results = [ct.NoCloud_Tdwarf(xpath,xlist),ct.MieClouds_Ldwarf(xpath,xlist)]
 

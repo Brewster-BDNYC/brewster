@@ -58,8 +58,8 @@ component = "A" #Change for B component if WISE 1049B
 obspec = np.asfortranarray(np.loadtxt(f"W1049{component}_wResolution.dat",dtype='d',unpack='true'))
 
 # Now the wavelength range
-w1 = 0.5
-w2 = 10.5
+w1 = 0.95
+w2 = 12.05
 
 # FWHM of data in microns(WE DON'T USE THIS FOR SPEX DATA.
 #  >0 = some value of FWHM for convolving the data
@@ -113,7 +113,7 @@ chemeq = 0
 
 # Are we doing H- bound-free, free-free continuum opacities?
 # (Is the profile going above 3000K in the photosphere?)
-do_bff = 0
+do_bff = 1
 
 # Set the profile type. If we're using a fixed one. Give the file name
 # Set the profile type. If we're using a fixed one. Give the file name
@@ -157,7 +157,7 @@ ngas = len(gaslist)
 # some switches for alternative cross sections
 # Use Mike's (Burrows) Alkalis?
 #Use Allard (=0), Burrow's(=1), and new Allard (=2)
-malk = 1
+malk = 0
 # Use Mike's CH4?
 mch4 = 0
 
@@ -312,12 +312,12 @@ if (fresh == 0):
     #             p0[i, ndim - 1] = 4200. + (200. * np.random.randn())
     
     # These are for profile type 7. Tint, alpha, lndelta, T1, T2, T3
-    p0[:,ndim-6] = 1500. + (20.* np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-5] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
-    p0[:,ndim-4] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
-    p0[:,ndim-3] = 1500. + (25. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-2] = 1500. + (50. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-1] = 1500. + (20. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,12] = 1700. + (100.* np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,13] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
+    p0[:,14] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
+    p0[:,15] = 1150. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,16] = 1200. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,17] = 1300. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
 
 
 if (fresh != 0):

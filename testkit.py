@@ -203,7 +203,33 @@ def lnprior(theta):
             scale1 = 1.0
             scale2 = 1.0
             pc = ng + 4
-    
+
+    elif (fwhm == 999):
+        # set wavelengths below to match transition between instruments
+        join = 4.99
+        s1  = np.where(obspec[0,:] < join) 
+        s2 = np.where(obspec[0,:] > join)
+        s3 =  s2
+        r2d2 = theta[ng+1]
+        scale1 = 1.0 # dummy value
+        scale2 = 1.0 # theta[ng+2]
+        vrad = theta[ng+2]
+        vsini = 10.
+        
+        if (do_fudge == 1):
+            logf1 = theta[ng+3]
+            logf2 = theta[ng+4]
+            logf3 = np.log10(0.1*(max(obspec[2,10::3]))**2) # dummy
+            logf = np.log10(0.1*(max(obspec[2,10::3]))**2) # dummy
+            pc = ng+5
+        else:
+            # This is a place holder value so the code doesn't break
+            logf = np.log10(0.1*(max(obspec[2,:]))**2)
+            logf1 = np.log10(0.1*(max(obspec[2,:]))**2)
+            logf2 = np.log10(0.1*(max(obspec[2,:]))**2)
+            logf3 = np.log10(0.1*(max(obspec[2,:]))**2)
+            pc = ng + 4
+
     else:
         # this just copes with normal, single instrument data
         s1 = np.where(obspec[0,:] > 0.0)
@@ -677,11 +703,11 @@ def lnprior(theta):
             and  metscale[0] <=  mh <= metscale[-1]
             and  coscale[0] <= co <= coscale[-1]
             and  0.0 < logg < 6.0
-            and 20. < M < 45.
+            and 1.0 < M < 80.
             and  0. < r2d2 < 1.
             and 0.1 < scale1 < 10.0
             and 0.1 < scale2 < 10.0
-            and  0.5 < Rj < 1.5
+            and  0.5 < Rj < 2.0
              and -250 < vrad < 250
             and 0. < vsini < 100.0
             and ((0.01*np.min(obspec[2,:]**2)) < 10.**logf
@@ -973,6 +999,17 @@ def lnlike(theta):
             # This is a place holder value so the code doesn't break
             logf = np.log10(0.1*(max(obspec[2,10::3]))**2)
             nb = 4
+    
+    elif (fwhm == 999):
+        # set wavelengths below to match transition between instruments
+        if (do_fudge == 1):
+            logf1 = theta[ng+3]
+            logf2 = theta[ng+4]
+            nb = 5
+        else:
+            # This is a place holder value so the code doesn't break
+            logf = np.log10(0.1*(max(obspec[2,10::3]))**2)
+            nb = 3
     else:
         if (do_fudge == 1):
             logf = theta[ng+3]
@@ -995,21 +1032,34 @@ def lnlike(theta):
 
         lnLik=-0.5*np.sum((((obspec[1,:] - spec[:])**2) / s2) + np.log(2.*np.pi*s2))   
 
-    elif (fwhm > 10.00 and fwhm < 900.00):
-        # this is a uniform resolving power R.
-        Res = fwhm
-        spec = conv_uniform_R(obspec,modspec,Res)
-        if (do_fudge == 1):
-            s2=obspec[2,:]**2 + 10.**logf
-        else:
-            s2 = obspec[2,:]**2
-
-        lnLik=-0.5*np.sum((((obspec[1,:] - spec[:])**2) / s2) + np.log(2.*np.pi*s2))
-
     elif (fwhm == 999):
         # this is a non-uniform resolving power R.
         R = obspec[-1, :]
         spec = conv_non_uniform_R(obspec,modspec,R)
+
+        # set join wavelength
+        join = 4.99
+        r1 = np.where(obspec[0,:] < join)
+        r2 = np.where(obspec[0,:] > join)
+
+        if (do_fudge == 1):
+            s1 = obspec[2,r1]**2 + 10.**logf1
+            s2 = obspec[2,r2]**2 + 10.**logf2
+        else:
+            s1 = obspec[2,r1]**2
+            s2 = obspec[2,r2]**2
+
+
+        lnLik1=-0.5*np.sum((((obspec[1,r1] - spec[r1])**2) / s1) + np.log(2.*np.pi*s1))
+        lnLik2=-0.5*np.sum((((obspec[1,r2] - spec[r2])**2) / s2) + np.log(2.*np.pi*s2))
+        lnLik = lnLik1 + lnLik2
+            
+
+        
+    elif (fwhm > 10.00):
+        # this is a uniform resolving power R.
+        Res = fwhm
+        spec = conv_uniform_R(obspec,modspec,Res)
         if (do_fudge == 1):
             s2=obspec[2,:]**2 + 10.**logf
         else:
@@ -1388,9 +1438,10 @@ def modelspec(theta, args=None,gnostics=0):
                 logf = theta[ng+3]
                 nb = 4
             else:
-                # This is a place holder value so the code doesn't break                                                                      
+                # This is a place holder value so the code doesn't break                                                           
                 logf = np.log10(0.1*(max(obspec[2,10::3]))**2)
                 nb = 3
+    
     elif (fwhm == 3.0):
         r2d2 = theta[ng+1]
         vrad = theta[ng+2]
@@ -1402,7 +1453,19 @@ def modelspec(theta, args=None,gnostics=0):
             # This is a place holder value so the code doesn't break
             logf = np.log10(0.1*(max(obspec[2,10::3]))**2)
             nb = 4
-        
+            
+    elif (fwhm == 999):
+        r2d2 = theta[ng+1]
+        vrad = theta[ng+2]
+        if (do_fudge == 1):
+            logf1 = theta[ng+3]
+            logf2 = theta[ng+4]
+            nb = 5
+        else:
+            # This is a place holder value so the code doesn't break
+            logf = np.log10(0.1*(max(obspec[2,10::3]))**2)
+            nb = 3
+
     else:
         r2d2 = theta[ng+1]
         vrad = theta[ng+2]
@@ -1415,6 +1478,9 @@ def modelspec(theta, args=None,gnostics=0):
             nb = 3
 
             
+
+
+
    
     npatches = do_clouds.size
     if (npatches > 1):

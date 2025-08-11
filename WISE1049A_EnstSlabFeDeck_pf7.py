@@ -47,15 +47,15 @@ __status__ = "Development"
 # First get data and parameters for object
 
 # Give the run name
-runname = "W1049_EnstFostSlabFeDeck"
+runname = "WISE1049A_EnstSlabFeDeck_pf7"
 
 # get the observed spectrum
 # text file with columns:
 # wavelength in microns
 # flux in W/m2/um
 # flux error
-component = "A" #Change for B component if WISE 1049B
-obspec = np.asfortranarray(np.loadtxt(f"W1049{component}_wResolution.dat",dtype='d',unpack='true'))
+component = "B" #Change for B component if WISE 1049B
+obspec = np.asfortranarray(np.loadtxt("WISE1049A_NewMedianE2.txt",dtype='d',unpack='true'))
 
 # Now the wavelength range
 w1 = 0.95
@@ -75,12 +75,12 @@ dist = 1.99
 # How many patches & clouds do we want??
 # Must be at least 1 of each, but can turn off cloud below
 npatches = 1
-nclouds = 3
+nclouds = 2
 
 # set up array for setting patchy cloud answers
 do_clouds = np.zeros([npatches], dtype='i')
 
-# Which patchdes are cloudy
+# Which patches are cloudy
 do_clouds[:] = 1
 
 # set up cloud detail arrays
@@ -89,16 +89,13 @@ cloudtype = np.zeros([npatches, nclouds], dtype='i')
 
 # Now fill cloud details. What kind of clouds and shape are they?
 # Cloud types
-# 1:  slab cloud
+# 1: slab cloud
 # 2: deep thick cloud , we only see the top
 # 3: slab with fixed thickness log dP = 0.005 (~1% height)
 # 4: deep thick cloud with fixed height log dP = 0.005
 # In both cases the cloud properties are density, rg, rsig for real clouds
 # and dtau, w0, and power law for cloudnum = 89 or 99 for grey
 # See cloudlist.dat for other cloudnum
-
-cloudnum[:,0] = 4
-cloudtype[:,0] = 1
 
 cloudnum[:,0] = 5
 cloudtype[:,0] = 1
@@ -108,7 +105,7 @@ cloudtype[:,1] = 2
 
 # second patch turn off top cloud
 #cloudnum[1,0] = 5
-#cloudtype[1,0] = 0
+#cloudtype[1,0] = 1
 
 # Are we assuming chemical equilibrium, or similarly precomputed gas abundances?
 # Or are we retrieving VMRs (0)
@@ -116,7 +113,7 @@ chemeq = 0
 
 # Are we doing H- bound-free, free-free continuum opacities?
 # (Is the profile going above 3000K in the photosphere?)
-do_bff = 0
+do_bff = 1
 
 # Set the profile type. If we're using a fixed one. Give the file name
 # Set the profile type. If we're using a fixed one. Give the file name
@@ -141,9 +138,9 @@ press = pow(10,logfinePress)
 
 # Where are the cross sections?
 # give the full path
-user = "3940"
-folder_name = "brewster_global"
-xpath = f"/lustre/xg-phy240309/users/{user}/{folder_name}/Linelists/"
+#user = "3941"
+#folder_name = "brewster_extra"
+xpath = "/lustre/xg-phy240309/users/3941/brewster_extra/Linelists/"
 xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather than interpolated to 10k), but they don’t fit the data as well
 
 # now the cross sections
@@ -160,13 +157,13 @@ ngas = len(gaslist)
 # some switches for alternative cross sections
 # Use Mike's (Burrows) Alkalis?
 #Use Allard (=0), Burrow's(=1), and new Allard (=2)
-malk = 1
+malk = 0
 # Use Mike's CH4?
 mch4 = 0
 
 # now set up the EMCEE stuff
 # How many dimensions???  Count them up in the p0 declaration. Carefully
-ndim = 28
+ndim = 27  ### EDITED
 
 
 # How many walkers we running?
@@ -187,9 +184,9 @@ runtest = 1
 make_arg_pickle = 2
 
 # Where is the output going?
-user = "3940"
-folder_name = "brewster_global/brewster"
-outdir = "/lustre/xg-phy240309/users/{user}/{folder_name}/outputs/"
+#user = "3941"
+#folder_name = "brewster_extra/outputs"
+outdir = "/lustre/xg-phy240309/users/3941/brewster_extra/outputs/"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
@@ -229,8 +226,8 @@ if (fresh == 0):
     p0[:,0] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 3.5 # H2O
     p0[:,1] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 3.5 # CH4
     p0[:,2] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 4.0 # CO 
-    p0[:,3] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 4.0 # CO2
-    p0[:,4] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 4.6 # NH3   
+    p0[:,3] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 4.0 # CO2 
+    p0[:,4] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 4.6 # NH3  
     p0[:,5] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 8.0 # FeH
     p0[:,6] = (0.5*np.random.randn(nwalkers).reshape(nwalkers)) - 5.5 # Na+K
     p0[:,7] = 0.1*np.random.randn(nwalkers).reshape(nwalkers) + 4.75  # gravity
@@ -245,27 +242,19 @@ if (fresh == 0):
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
     # this example is a "real" cloud with Hansen a and b parameters
-    p0[:,12] = np.random.randn(nwalkers).reshape(nwalkers) # optical depth
+    p0[:,12] = np.random.rand(nwalkers).reshape(nwalkers) # optical depth
     p0[:,13] = 0.5 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
     p0[:,14] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
     p0[:,15] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
     p0[:,16] = 0.1*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
-    
-    # Slab cloud 2 params
-    p0[:,17] = np.random.randn(nwalkers).reshape(nwalkers) # optical depth
-    p0[:,18] = 0.5 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
-    p0[:,19] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
-    p0[:,20] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
-    p0[:,21] = 0.1*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
-   
     # Deck cloud params
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
     # this example is a "real" cloud with Hansen a and b parameters
-    p0[:,22] = np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
-    p0[:,23] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
-    p0[:,24] = np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
-    p0[:,25] = np.abs(0.1+ 0.01*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
+    p0[:,17] = np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
+    p0[:,18] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
+    p0[:,19] = np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
+    p0[:,20] = np.abs(0.1+ 0.01*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
    
     # ------ Temperature Pressure Parameters --------
     
@@ -323,12 +312,12 @@ if (fresh == 0):
     #             p0[i, ndim - 1] = 4200. + (200. * np.random.randn())
     
     # These are for profile type 7. Tint, alpha, lndelta, T1, T2, T3
-    p0[:,ndim-6] = 1500. + (20.* np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-5] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
-    p0[:,ndim-4] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
-    p0[:,ndim-3] = 1500. + (25. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-2] = 1500. + (50. * np.random.randn(nwalkers).reshape(nwalkers))
-    p0[:,ndim-1] = 1500. + (20. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,21] = 1700. + (100.* np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,22] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) + 1.25
+    p0[:,23] = (0.1 * np.random.randn(nwalkers).reshape(nwalkers)) - 1.2
+    p0[:,24] = 1150. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,25] = 1200. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
+    p0[:,26] = 1300. + (100. * np.random.randn(nwalkers).reshape(nwalkers))
 
 
 if (fresh != 0):

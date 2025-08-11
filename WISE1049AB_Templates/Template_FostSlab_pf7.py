@@ -58,8 +58,8 @@ component = "B" #Change for B component if WISE 1049B
 obspec = np.asfortranarray(np.loadtxt(f"WISE1049{component}_Median.txt",dtype='d',unpack='true'))
 
 # Now the wavelength range
-w1 = 0.7
-w2 = 12.3
+w1 = 0.95
+w2 = 12.05
 
 # FWHM of data in microns(WE DON'T USE THIS FOR SPEX DATA.
 #  >0 = some value of FWHM for convolving the data
