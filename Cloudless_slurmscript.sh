@@ -5,8 +5,8 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=6G 
 #SBATCH --job-name=Cloudless_A
-#SBATCH --output=outputs/Cloudless_A.o%j
-#SBATCH --error=outputs/Cloudless_A.e%j
+#SBATCH --output=outputs/cloudless/Cloudless_A.o%j
+#SBATCH --error=outputs/cloudless/Cloudless_A.e%j
 #SBATCH --partition=standard
 #SBATCH --time=01:00:00
 #SBATCH --mail-user=cnavarrete@amnh.org

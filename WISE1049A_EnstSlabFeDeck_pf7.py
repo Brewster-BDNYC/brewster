@@ -140,7 +140,7 @@ press = pow(10,logfinePress)
 # give the full path
 #user = "3941"
 #folder_name = "brewster_extra"
-xpath = "/lustre/xg-phy240309/users/3941/brewster_extra/Linelists/"
+xpath = "/lustre/xg-phy240309/users/3940/brewster_global/Linelists/"
 xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather than interpolated to 10k), but they don’t fit the data as well
 
 # now the cross sections
@@ -176,17 +176,17 @@ nburn = 10000
 niter = 30000
 
 # Is this a test or restart?
-runtest = 1
+runtest = 0
 
 # Are we writing the arguments to a pickle?
 # Set= 0 for no and run,Set = 1 for write and exit (no run); = 2 for write and continue
 # option 2 may cause a memory issue and crash a production run
-make_arg_pickle = 2
+make_arg_pickle = 0
 
 # Where is the output going?
 #user = "3941"
 #folder_name = "brewster_extra/outputs"
-outdir = "/lustre/xg-phy240309/users/3941/brewster_extra/outputs/"
+outdir = "/lustre/xg-phy240309/users/3940/brewster_global/brewster/"
 
 # Are we using DISORT for radiative transfer?
 # (HINT: Not in this century)
@@ -217,7 +217,7 @@ r2d2 = (71492e3)**2. / (dist * 3.086e+16)**2.
 
 # If we want fresh guess set to 0, total inherit the previous set 1
 # inherit plus randomise the VMRs. 2. See below to enter this filename
-fresh = 0
+fresh = 1
 p0 = np.empty([nwalkers,ndim])
 if (fresh == 0):
     # ----- "Gas" parameters (Includes gases, gravity, logg, scale factor, dlambda, and tolerance parameter) --
