@@ -1034,7 +1034,7 @@ def lnlike(theta):
 
     elif (fwhm == 999):
         # this is a non-uniform resolving power R.
-        R = obspec[-1, :]
+        R = obspec[3, :]
         spec = conv_non_uniform_R(obspec,modspec,R)
 
         # set join wavelength
