@@ -7,7 +7,7 @@
 #SBATCH --job-name=WISE1049A_EnstSlabFeDeck_pf7
 #SBATCH --output=WISE1049A_EnstSlabFeDeck_pf7_check.o%j
 #SBATCH --error=WISE1049A_EnstSlabFeDeck_pf7_check.e%j
-#SBATCH --partition=standard
+#SBATCH --partition=large-mem
 #SBATCH --time=00:30:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL

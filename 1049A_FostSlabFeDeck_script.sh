@@ -7,7 +7,7 @@
 #SBATCH --job-name=WISE1049A_FostSlabFeDeck_pf7
 #SBATCH --output=WISE1049A_FostSlabFeDeck_pf7_check.o%j
 #SBATCH --error=WISE1049A_FostSlabFeDeck_pf7_check.e%j
-#SBATCH --partition=standard
+#SBATCH --partition=large-mem
 #SBATCH --time=00:30:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL
@@ -23,7 +23,7 @@ vpkg_require my-sci-app/20201102
 # Do standard Open MPI environment setup (networks, etc.)                                         	\
 . /opt/shared/slurm/templates/libexec/openmpi.sh
 cd /home/3940/brewster_global/brewster_v1.1/brewster/
-#export TMPDIR="/lustre/xg-phy240309/users/3941/brewster_extra/tmpdir/$SLURM_JOBID.tmp"
+#export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_global/brewster/tmpdir/$SLURM_JOBID.tmp"
 #mkdir -p $TMPDIR
 ${UD_MPIRUN} python "/home/3940/brewster_global/brewster_v1.1/brewster/WISE1049A_FostSlabFeDeck_pf7.py" > /home/3940/brewster_global/brewster_v1.1/log_files/WISE1049A_FostSlabFeDeck_pf7.log
 #rm -r *core.*
