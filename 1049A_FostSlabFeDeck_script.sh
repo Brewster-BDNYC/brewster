@@ -4,15 +4,15 @@
 #SBATCH --tasks-per-node=64
 #SBATCH --cpus-per-task=1
 #SBATCH --mem-per-cpu=6G 
-#SBATCH --job-name=WISE1049A_FostSlabFeDeck_pf7
-#SBATCH --output=WISE1049A_FostSlabFeDeck_pf7_check.o%j
-#SBATCH --error=WISE1049A_FostSlabFeDeck_pf7_check.e%j
+#SBATCH --job-name=WISE1049A_FostSlabFeDeck_pf7_829
+#SBATCH --output=WISE1049A_FostSlabFeDeck_pf7_829_check.o%j
+#SBATCH --error=WISE1049A_FostSlabFeDeck_pf7_829_check.e%j
 #SBATCH --partition=large-mem
-#SBATCH --time=00:30:00
+#SBATCH --time=90:30:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL
 #SBATCH --export=NONE
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/home/3940/brewster_global/brewster_v1.1/brewster/"
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"/home/3940/brewster_global/brewster/"
 vpkg_require my-sci-app/20201102
 #UD_QUIET_JOB_SETUP=YES                                                          	\
 #export UD_JOB_EXIT_FN_SIGNALS="SIGTERM EXIT"                                               	\
@@ -22,10 +22,10 @@ vpkg_require my-sci-app/20201102
 #UD_DISABLE_IB_INTERFACES=YES                                                       	\
 # Do standard Open MPI environment setup (networks, etc.)                                         	\
 . /opt/shared/slurm/templates/libexec/openmpi.sh
-cd /home/3940/brewster_global/brewster_v1.1/brewster/
+cd /home/3940/brewster_global/brewster/
 #export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_global/brewster/tmpdir/$SLURM_JOBID.tmp"
 #mkdir -p $TMPDIR
-${UD_MPIRUN} python "/home/3940/brewster_global/brewster_v1.1/brewster/WISE1049A_FostSlabFeDeck_pf7.py" > /home/3940/brewster_global/brewster_v1.1/log_files/WISE1049A_FostSlabFeDeck_pf7.log
+${UD_MPIRUN} python "/home/3940/brewster_global/brewster/WISE1049A_FostSlabFeDeck_pf7.py" > /home/3940/brewster_global/log_files/WISE1049A_FostSlabFeDeck_pf7.log
 #rm -r *core.*
 mpi_rc=$?
 
