@@ -703,11 +703,11 @@ def lnprior(theta):
             and  metscale[0] <=  mh <= metscale[-1]
             and  coscale[0] <= co <= coscale[-1]
             and  0.0 < logg < 6.0
-            and 1.0 < M < 80.
+            and 20 < M < 45.
             and  0. < r2d2 < 1.
             and 0.1 < scale1 < 10.0
             and 0.1 < scale2 < 10.0
-            and  0.5 < Rj < 2.0
+            and  0.5 < Rj < 1.5
              and -250 < vrad < 250
             and 0. < vsini < 100.0
             and ((0.01*np.min(obspec[2,:]**2)) < 10.**logf
