@@ -8,7 +8,7 @@
 #SBATCH --output=WISE1049A_EnstFostSlabFeDeck_pf7_check.o%j
 #SBATCH --error=WISE1049A_EnstFostSlabFeDeck_pf7_check.e%j
 #SBATCH --partition=large-mem
-#SBATCH --time=00:30:00
+#SBATCH --time=100:00:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL
 #SBATCH --export=NONE
@@ -25,6 +25,6 @@ vpkg_require my-sci-app/20201102
 cd /home/3940/brewster_global/brewster/
 #export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_global/tmpdir/$SLURM_JOBID.tmp"
 #mkdir -p $TMPDIR
-${UD_MPIRUN} python "/home/3940/brewster_global/brewster/WISE1049A_EnstFostSlabFeDeck_pf7_98.py" > /home/3940/brewster_global/log_files/WISE1049A_EnstFostSlabFeDeck_pf7.log
+${UD_MPIRUN} python "/home/3940/brewster_global/brewster/WISE1049A_EnstFostSlabFeDeck_98.py" > /home/3940/brewster_global/log_files/WISE1049A_EnstFostSlabFeDeck_pf7.log
 #rm -r *core.*
 mpi_rc=$?

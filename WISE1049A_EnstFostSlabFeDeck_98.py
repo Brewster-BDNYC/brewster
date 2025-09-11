@@ -55,7 +55,7 @@ runname = "WISE1049A_EnstFostSlabFeDeck_98"
 # flux in W/m2/um
 # flux error
 #component = "A" #Change for B component if WISE 1049B
-obspec = np.asfortranarray(np.loadtxt("WISE1049A_Median.txt",dtype='d',unpack='true'))
+obspec = np.asfortranarray(np.loadtxt("WISE1049AB_Data/WISE1049A_Median.txt",dtype='d',unpack='true'))
 
 # Now the wavelength range
 w1 = 0.95
@@ -143,7 +143,7 @@ press = pow(10,logfinePress)
 # give the full path
 #user = "3940"
 #folder_name = "brewster_global"
-xpath = "/lustre/xg-phy240309/users/3940/brewster_global/brewster/"
+xpath = "/lustre/xg-phy240309/users/3940/brewster_global/Linelists/"
 xlist = 'gaslistR10K.dat' #The gaslistR10k better. Rox is sampled at 10k (rather than interpolated to 10k), but they don’t fit the data as well
 
 # now the cross sections
@@ -176,7 +176,7 @@ nwalkers = ndim * 16
 nburn = 10000
 
 # How many iterations are we running?
-niter = 6679
+niter = 30000
 
 # Is this a test or restart?
 runtest = 1
@@ -184,7 +184,7 @@ runtest = 1
 # Are we writing the arguments to a pickle?
 # Set= 0 for no and run,Set = 1 for write and exit (no run); = 2 for write and continue
 # option 2 may cause a memory issue and crash a production run
-make_arg_pickle = 2
+make_arg_pickle = 0
 
 # Where is the output going?
 #user = "3940"
@@ -220,7 +220,7 @@ r2d2 = (71492e3)**2. / (dist * 3.086e+16)**2.
 
 # If we want fresh guess set to 0, total inherit the previous set 1
 # inherit plus randomise the VMRs. 2. See below to enter this filename
-fresh = 0
+fresh = 1
 p0 = np.empty([nwalkers,ndim])
 if (fresh == 0):
     # ----- "Gas" parameters (Includes gases, gravity, logg, scale factor, dlambda, and tolerance parameter) --
