@@ -4,7 +4,7 @@
 #SBATCH --ntasks=64                # 2 nodes * 32 ppn
 #SBATCH --tasks-per-node=64
 #SBATCH --cpus-per-task=1
-#SBATCH --job-name=W1049A_MCNUGGETS
+#SBATCH --job-name=W1049A_EF_MCNUGGETS
 #SBATCH --output=W_EF_SLAB_NUG.o%j
 #SBATCH --error=W_EF_SLAB_NUG.e%j
 #SBATCH --partition=standard
@@ -27,4 +27,4 @@ export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_global/brewster/tmpdir/$
 mkdir -p $TMPDIR
 
 # Run Python script with MPI
-${UD_MPIRUN} python "/home/3940/brewster_global/brewster/mcnuggets_W1049A_FostEnst.py" > ../log_files/W1049A_EFSlab_nug.log
+${UD_MPIRUN} python "/home/3940/brewster_global/brewster/mcnuggets_W1049A_EnstFost.py" > ../log_files/W1049A_EFSlab_nug.log

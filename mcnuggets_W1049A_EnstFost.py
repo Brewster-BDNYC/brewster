@@ -10,7 +10,6 @@ import scipy as sp
 import testkit
 import ciamod
 import TPmod
-import nugbits_TEMPLATE as nb
 import settings
 import os
 import gc
