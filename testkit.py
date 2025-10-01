@@ -206,7 +206,7 @@ def lnprior(theta):
 
     elif (fwhm == 999):
         # set wavelengths below to match transition between instruments
-        join = 4.99
+        join = 5.2
         s1  = np.where(obspec[0,:] < join) 
         s2 = np.where(obspec[0,:] > join)
         s3 =  s2
@@ -1038,7 +1038,7 @@ def lnlike(theta):
         spec = conv_non_uniform_R(obspec,modspec,R)
 
         # set join wavelength
-        join = 4.99
+        join = 5.2
         r1 = np.where(obspec[0,:] < join)
         r2 = np.where(obspec[0,:] > join)
 
