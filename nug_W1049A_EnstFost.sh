@@ -9,7 +9,7 @@
 #SBATCH --error=W_EF_SLAB_NUG.e%j
 #SBATCH --partition=standard
 #SBATCH --mem-per-cpu=5G
-#SBATCH --time=12:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mail-user=cnavarrete@amnh.org
 #SBATCH --mail-type=ALL
 #SBATCH --export=NONE

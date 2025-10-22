@@ -53,13 +53,13 @@ COMM = MPI.COMM_WORLD
 
 
 # only the first rank has to do all the crap...
-runname =  "WISE1049A_EnstFostSlabFeDeck_911"
+runname =  "WISE1049A_EnstFostSlabFeDeck_pf7_101"
 
 # using the Burrow's alkalis (via Mike)?
 malk = 0
 
 #Are we testing?
-testrun = 1
+testrun = 0
 
 # length of test??
 testlen = 30
@@ -111,8 +111,8 @@ gases_myP,chemeq,dist,cloudtype, do_clouds,gasnum,cloudnum,inlinetemps,coarsePre
 # dist = 2.15
 
 # Wavelength range 
-w1 = 0.5
-w2 = 10.5
+w1 = 1.0
+w2 = 12
 
 # So, we'll use gasnum from runargs^^ to replace the opacity arrays from the
 # retrieval with new ones covering our new wavelength range. 

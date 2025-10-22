@@ -59,7 +59,7 @@ runname =  "WISE1049A_EnstSlabFeDeck_pf7_911"
 malk = 0
 
 #Are we testing?
-testrun = 1
+testrun = 0
 
 # length of test??
 testlen = 30
@@ -111,8 +111,8 @@ gases_myP,chemeq,dist,cloudtype, do_clouds,gasnum,cloudnum,inlinetemps,coarsePre
 # dist = 2.15
 
 # Wavelength range 
-w1 = 0.5
-w2 = 10.5
+w1 = 0.95
+w2 = 12.5
 
 # So, we'll use gasnum from runargs^^ to replace the opacity arrays from the
 # retrieval with new ones covering our new wavelength range. 
