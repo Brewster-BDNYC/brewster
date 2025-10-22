@@ -10,7 +10,6 @@ import scipy as sp
 import testkit
 import ciamod
 import TPmod
-#import nugbits_TEMPLATE as nb
 import settings
 import os
 import gc
@@ -54,7 +53,7 @@ COMM = MPI.COMM_WORLD
 
 
 # only the first rank has to do all the crap...
-runname =  "WISE1049A_FostSlabFeDeck_pf7_911"
+runname =  "WISE1049A_EnstFostSlabFeDeck_pf7_101"
 
 # using the Burrow's alkalis (via Mike)?
 malk = 0
@@ -74,14 +73,14 @@ sigDist = 0.1
 # What's the error on the photometry used to flux calibrate the data?
 sigPhot = 0.02
 
-# Where are the pickles stored?
+# Where are the pickles stored? EDIT
 outdir = "/lustre/xg-phy240309/users/3940/brewster_global/brewster/"
 
 # which opacity set did we use?
 xlist = "gaslistR10K.dat"
 
 # Where are the cross sections?
-# give the full path
+# give the full path EDIT
 xpath = "/lustre/xg-phy240309/users/3940/brewster_global/Linelists/"
 
 # that's all the input.. .off we go...
@@ -112,8 +111,8 @@ gases_myP,chemeq,dist,cloudtype, do_clouds,gasnum,cloudnum,inlinetemps,coarsePre
 # dist = 2.15
 
 # Wavelength range 
-w1 = 0.95
-w2 = 12.5
+w1 = 1.0
+w2 = 12
 
 # So, we'll use gasnum from runargs^^ to replace the opacity arrays from the
 # retrieval with new ones covering our new wavelength range. 
