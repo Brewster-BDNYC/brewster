@@ -9,7 +9,7 @@
 #SBATCH --error=W_SPECIES_SLAB_NUG.e%j
 #SBATCH --partition=standard
 #SBATCH --mem-per-cpu=5G
-#SBATCH --time=12:00:00
+#SBATCH --time=24:00:00
 #SBATCH --mail-user=EMAIL@amnh.org
 #SBATCH --mail-type=ALL
 #SBATCH --export=NONE
@@ -27,4 +27,4 @@ export TMPDIR="/lustre/xg-phy240309/users/3940/brewster_global/brewster/tmpdir/$
 mkdir -p $TMPDIR
 
 # Run Python script with MPI
-${UD_MPIRUN} python "/home/3940/brewster_global/brewster/mcnuggets_W1049A_v1.py" > ../log_files/W1049A_ESlab_nug.log
+${UD_MPIRUN} python "/home/3940/brewster_global/brewster/mcnuggets_W1049A_EnstFost.py" > ../log_files/W1049A_ESlab_nug.log
