@@ -47,7 +47,7 @@ __status__ = "Development"
 # First get data and parameters for object
 
 # Give the run name
-runname = "WISE1049A_FostSlabFeDeck_pf7_911"
+runname = "WISE1049A_FostSlabFeDeck_pf7_101"
 
 # get the observed spectrum
 # text file with columns:
@@ -55,7 +55,7 @@ runname = "WISE1049A_FostSlabFeDeck_pf7_911"
 # flux in W/m2/um
 # flux error
 #component = "B" #Change for B component if WISE 1049B
-obspec = np.asfortranarray(np.loadtxt("WISE1049AB_Data/WISE1049A_Median.txt",dtype='d',unpack='true'))
+obspec = np.asfortranarray(np.loadtxt("WISE1049AB_Data/WISE1049A_Median_v2.txt",dtype='d',unpack='true'))
 
 # Now the wavelength range
 w1 = 0.95
@@ -180,7 +180,7 @@ runtest = 1
 # Are we writing the arguments to a pickle?
 # Set= 0 for no and run,Set = 1 for write and exit (no run); = 2 for write and continue
 # option 2 may cause a memory issue and crash a production run
-make_arg_pickle = 2
+make_arg_pickle = 0
 
 # Where is the output going?
 #user = "3941"
@@ -216,7 +216,7 @@ r2d2 = (71492e3)**2. / (dist * 3.086e+16)**2.
 
 # If we want fresh guess set to 0, total inherit the previous set 1
 # inherit plus randomise the VMRs. 2. See below to enter this filename
-fresh = 0
+fresh = 1
 p0 = np.empty([nwalkers,ndim])
 if (fresh == 0):
     # ----- "Gas" parameters (Includes gases, gravity, logg, scale factor, dlambda, and tolerance parameter) --
@@ -241,19 +241,37 @@ if (fresh == 0):
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
     # this example is a "real" cloud with Hansen a and b parameters
-    p0[:,12] = np.random.rand(nwalkers).reshape(nwalkers) # optical depth
-    p0[:,13] = 0.5 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
-    p0[:,14] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
-    p0[:,15] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
-    p0[:,16] = 0.1*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
+    #p0[:,12] = np.random.rand(nwalkers).reshape(nwalkers) # optical depth
+    #p0[:,13] = 0.5 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
+    #p0[:,14] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
+    #p0[:,15] = -1. + 0.1*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
+    #p0[:,16] = 0.2 + 0.5*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
     # Deck cloud params
     # These parameters should be commented out or adjusted for
     # e.g grey cloud or power law cloud, or no cloud, or deck cloud
     # this example is a "real" cloud with Hansen a and b parameters
-    p0[:,17] = np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
+    #p0[:,17] = np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
+    #p0[:,18] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
+    #p0[:,19] = np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
+    #p0[:,20] = np.abs(0.1 + 0.01*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
+   
+    # Slab cloud params
+    # These parameters should be commented out or adjusted for
+    # e.g grey cloud or power law cloud, or no cloud, or deck cloud
+    # this example is a "real" cloud with Hansen a and b parameters
+    p0[:,12] = np.random.rand(nwalkers).reshape(nwalkers) # optical depth
+    p0[:,13] = -0.1 + 0.05 * np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
+    p0[:,14] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
+    p0[:,15] = np.abs(-0.2 + 0.05*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
+    p0[:,16] = 0.2 + 0.05*np.random.rand(nwalkers).reshape(nwalkers) # Hansen b for "real" cloud or Power law for 89/99 cloud
+    # Deck cloud params
+    # These parameters should be commented out or adjusted for
+    # e.g grey cloud or power law cloud, or no cloud, or deck cloud
+    # this example is a "real" cloud with Hansen a and b parameters
+    p0[:,17] = 0.6 + 0.05*np.random.randn(nwalkers).reshape(nwalkers) # cloud top pressure
     p0[:,18] = np.random.rand(nwalkers).reshape(nwalkers) # cloud thickness in pressure
-    p0[:,19] = np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
-    p0[:,20] = np.abs(0.1 + 0.01*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
+    p0[:,19] = 0.1 + 0.05*np.random.randn(nwalkers).reshape(nwalkers) # Hansen a if "real" cloud or single scattering albedo between 0 and 1 (np.rand=uniform distribution) for 89/99 cloud
+    p0[:,20] = np.abs(0.1 + 0.05*np.random.randn(nwalkers).reshape(nwalkers)) # Hansen b for "real" cloud or Power law for 89/99 cloud
    
     # ------ Temperature Pressure Parameters --------
     
